@@ -1,27 +1,31 @@
-import React, { Component } from "react";
-import Cabezera from "./cabezera";
-import P from "./p";
+import React, { Component } from "react"
+import FormularioSimple from "./formularioSimple"
+import Axios from "axios";
 
 export default class Body extends Component {
-  state = {
-    miau: "Bienvenido a miau",
-  };
+	constructor() {
+		super()
+		this.state = {
+			data: null
+		}
+	}
 
-  cambiarTextoDelEstado = () => {
-    this.setState({ miau: "Hola Mundo" });
-  };
+	Vaarr = () => {
+		Axios.get('https://jsonplaceholder.typicode.com/users')
+			.then(({ data }) => { this.setState({ data }) })
+	}
 
-  manejaClick = (texto) => {
-    console.log(texto);
-  };
+	componentDidMount() {
+		this.Vaarr()
+	}
 
-  render() {
-    const { miau } = this.state;
-    return (
-      <div className="App">
-        <Cabezera miau={miau} manejaClick={this.manejaClick} />
-        <P onClick={this.cambiarTextoDelEstado}>{miau}</P>
-      </div>
-    );
-  }
+	render() {
+
+		return (
+			<div className="App" >
+				{this.state.data}
+				<FormularioSimple />
+			</div>
+		)
+	}
 }
